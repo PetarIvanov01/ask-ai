@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  @apply h-full;
+}
+
+@layer base {
+  h1 {
+    @apply text-3xl md:text-5xl lg:text-5xl xl:text-5xl;
+  }
+  h2 {
+    @apply text-xl md:text-3xl lg:text-3xl xl:text-3xl;
+  }
+  h3 {
+    @apply text-lg md:text-xl lg:text-xl xl:text-xl;
+  }
+
+  p,
+  a,
+  input {
+    @apply text-base;
+  }
+}
+/* Tailwind works mostly with rem units. The following breakpoints are the most common according to W3Schools */
+@media (max-width: 1200px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media (max-width: 992px) {
+  html {
+    font-size: 13px;
+  }
+}
+@media (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px) {
+  html {
+    font-size: 11px;
+  }
+}
