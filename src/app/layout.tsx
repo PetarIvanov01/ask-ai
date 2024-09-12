@@ -1,7 +1,8 @@
+import "reflect-metadata";
+import "../globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import MainLayout from "@/components/layout/MainLayout";
-import "../globals.css";
+import ClientExportReflect from "./client-reflect";
 
 const inter = Poppins({ subsets: ["latin"], weight: "300" });
 
@@ -19,9 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="min-h-screen bg-dark-gray-5">
-          <MainLayout>{children}</MainLayout>
-        </main>
+        <ClientExportReflect>
+          <main className="min-h-screen bg-dark-gray-5">{children}</main>
+        </ClientExportReflect>
       </body>
     </html>
   );
