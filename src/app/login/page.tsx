@@ -2,20 +2,27 @@
 
 import React, { useState } from "react";
 import { login, signup } from "./actions";
+import { useFormState } from "react-dom";
+import SignButton from "./button";
 
 export default function SignPage() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const action = isSignUp ? signup : login;
+  const [state, formAction] = useFormState(action, {});
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-darker-gray p-8 rounded-lg shadow-lg max-w-sm w-full">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-100">
+        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-100">
           {isSignUp ? "Sign Up" : "Sign In"}
         </h2>
 
-        <form action={!isSignUp ? login : signup}>
+        {state.form && (
+          <p className="text-red-400 h-3 text-sm text-center">{state.form}</p>
+        )}
+        <form action={formAction} className="flex flex-col gap-4 mt-2 relative">
           {isSignUp && (
-            <div className="mb-4">
+            <div>
               <label
                 className="block text-gray-400 text-sm mb-2"
                 htmlFor="username"
@@ -30,10 +37,12 @@ export default function SignPage() {
                 placeholder="Enter your username"
                 required={isSignUp}
               />
+
+              {state.username && <Error message={state.username} />}
             </div>
           )}
 
-          <div className="mb-4">
+          <div>
             <label className="block text-gray-400 text-sm mb-2" htmlFor="email">
               Email
             </label>
@@ -45,9 +54,11 @@ export default function SignPage() {
               placeholder="Enter your email"
               required
             />
+
+            {state.email && <Error message={state.email} />}
           </div>
 
-          <div className="mb-6">
+          <div>
             <label
               className="block text-gray-400 text-sm mb-2"
               htmlFor="password"
@@ -62,14 +73,9 @@ export default function SignPage() {
               placeholder="Enter your password"
               required
             />
+            {state.password && <Error message={state.password} />}
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg shadow-md transition duration-300"
-          >
-            {isSignUp ? "Sign Up" : "Sign In"}
-          </button>
+          <SignButton isSignUp={isSignUp} />
         </form>
 
         <div className="mt-4 text-center">
@@ -87,3 +93,7 @@ export default function SignPage() {
     </div>
   );
 }
+
+const Error = ({ message }: { message: string | undefined }) => (
+  <p className="text-red-400 text-xs absolute">{message}</p>
+);
