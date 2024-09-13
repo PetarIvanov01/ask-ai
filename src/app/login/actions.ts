@@ -5,24 +5,45 @@ import { redirect } from "next/navigation";
 
 import { signInController } from "@/core/interface-adapters/controllers/authentication/sign-in.controller";
 import { signUpController } from "@/core/interface-adapters/controllers/authentication/sign-up.controller";
+import { InputParseError } from "@/core/entities/custom-errors/errors";
 
-export async function login(formData: FormData) {
+const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+type PrevState = {
+  email?: string;
+  username?: string;
+  password?: string;
+  form?: string;
+};
+
+export async function login(
+  prevState: PrevState,
+  formData: FormData
+): Promise<PrevState> {
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
 
+  await wait(2000);
   try {
-    const result = await signInController(data);
-
-    revalidatePath("/", "layout");
-    redirect("/");
+    await signInController(data);
   } catch (error) {
-    // handle error
+    if (error instanceof InputParseError) {
+      return { ...error.fields };
+    } else if (error instanceof Error) {
+      return { form: error.message };
+    }
+    return { form: "Sorry, but we canot handle the request." };
   }
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
-export async function signup(formData: FormData) {
+export async function signup(
+  prevState: PrevState,
+  formData: FormData
+): Promise<PrevState> {
   const data = {
     username: formData.get("username") as string,
     email: formData.get("email") as string,
@@ -30,13 +51,15 @@ export async function signup(formData: FormData) {
   };
 
   try {
-    const result = await signUpController(data);
-
-    revalidatePath("/", "layout");
-    redirect("/");
+    await signUpController(data);
   } catch (error) {
-    console.log(error);
-
-    // handle error
+    if (error instanceof InputParseError) {
+      return { ...error.fields };
+    } else if (error instanceof Error) {
+      return { form: error.message };
+    }
+    return { form: "Sorry, but we can't handle the request." };
   }
+  revalidatePath("/", "layout");
+  redirect("/");
 }
