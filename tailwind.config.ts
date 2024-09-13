@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -27,6 +28,11 @@ const config: Config = {
         "gray-2": "#191D20",
         "gray-3": "#1B1F22",
         "gray-4": "#111416",
+
+        "light-gray": "#f5f5f5",
+        "green-primary": "#b6f09c",
+        "green-dark": "#6cb16e",
+        "gray-border": "#e0e0e0",
       },
     },
   },
