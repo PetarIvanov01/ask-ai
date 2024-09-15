@@ -17,12 +17,7 @@ export async function signUpUseCase(input: {
     throw new AuthenticationError("User with this username already exist");
   }
 
-  const { session } = await authenticationService.createSessionOnSignUp(input);
-
-  await usersRepository.createUserProfile({
-    email: input.email,
-    username: input.username,
-  });
+  const { session } = await authenticationService.createProfileOnSignUp(input);
 
   return { session };
 }
