@@ -34,26 +34,55 @@ export type Database = {
   }
   public: {
     Tables: {
-      users: {
+      categories: {
         Row: {
           created_at: string
-          email: string
+          iconUrl: string
           id: number
+          options: string[]
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          iconUrl?: string
+          id?: number
+          options: string[]
+          title: string
+        }
+        Update: {
+          created_at?: string
+          iconUrl?: string
+          id?: number
+          options?: string[]
+          title?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
           username: string
         }
         Insert: {
           created_at?: string
-          email: string
-          id?: number
+          id?: string
           username: string
         }
         Update: {
           created_at?: string
-          email?: string
-          id?: number
+          id?: string
           username?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

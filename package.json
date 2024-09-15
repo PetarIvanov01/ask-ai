@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen-types": "npx supabase gen types --lang=typescript --local > core/infrastructure/utils/supabase/database.gen.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.17.1",
