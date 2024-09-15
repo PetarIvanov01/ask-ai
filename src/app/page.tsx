@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import Categories from "../ui/entry-page/categories";
 import MainLayout from "./main-layout";
+import { SkeletonLoader } from "../ui/entry-page/skeleton";
 
 export default function EntryPage() {
   return (
@@ -12,7 +14,9 @@ export default function EntryPage() {
           Improve your theoretical knowledge through AI conversations.
         </p>
 
-        <Categories />
+        <Suspense fallback={<SkeletonLoader />}>
+          <Categories />
+        </Suspense>
       </div>
     </MainLayout>
   );
