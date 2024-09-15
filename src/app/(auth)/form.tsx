@@ -1,14 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { login, signup } from "./actions";
-import { useFormState } from "react-dom";
+import Link from "next/link";
 import SignButton from "./button";
 
-export default function SignPage() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const action = isSignUp ? signup : login;
+import { useFormState } from "react-dom";
+
+type PrevState = {
+  email?: string;
+  username?: string;
+  password?: string;
+  form?: string;
+};
+
+export default function AuthForm({
+  type,
+  action,
+}: {
+  type: "login" | "register";
+  action: (state: PrevState, formData: FormData) => Promise<PrevState>;
+}) {
   const [state, formAction] = useFormState(action, {});
+  const isSignUp = type === "register";
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -81,12 +93,12 @@ export default function SignPage() {
         <div className="mt-4 text-center">
           <p className="text-gray-400">
             {isSignUp ? "Already have an account?" : "Don't have an account?"}
-            <button
-              onClick={() => setIsSignUp(!isSignUp)}
+            <Link
+              href={isSignUp ? "/login" : "/register"}
               className="text-indigo-500 font-semibold ml-1 hover:underline"
             >
               {isSignUp ? "Sign In" : "Sign Up"}
-            </button>
+            </Link>
           </p>
         </div>
       </div>
