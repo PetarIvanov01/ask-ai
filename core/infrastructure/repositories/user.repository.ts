@@ -10,52 +10,36 @@ export class UsersRepository implements IUsersRepository {
     return;
   }
   async getUserByUsername(username: string): Promise<UserProfile | undefined> {
-    const supabase = createClient();
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE
+    );
     const { data, error } = await supabase
-      .from("users")
+      .from("profiles")
       .select()
       .eq("username", username)
       .single();
 
-    if (!data) {
+    if (!data || error !== null) {
       return undefined;
     }
-    return { email: data.email, username: data.username };
+
+    return { username: data.username };
   }
 
-  async createUserProfile({
-    username,
-    email,
-  }: {
-    username: string;
-    email: string;
-  }): Promise<UserProfile> {
-    const supabase = createClient();
-
-    const { error } = await supabase.from("users").insert({
-      email,
-      username,
-    });
-
-    if (error) {
-      console.log(error);
-      throw new Error(error.message);
-    }
-
-    return { email, username };
-  }
   async getUserByEmail(email: string): Promise<UserProfile | undefined> {
-    const supabase = createClient();
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE
+    );
 
     const { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("email", email)
-      .single();
-
-    if (!data) {
+      .from("profiles")
+      .select().single()
+      
+      const {} = await supabase.auth.getUserIdentities()
+    if (!data || error !== null) {
       return undefined;
     }
-    return { email: data.email, username: data.username };
+
+    return { username: data.username };
   }
 }
