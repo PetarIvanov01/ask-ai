@@ -1,9 +1,10 @@
-import { UserAuth } from "@/core/entities/models/user";
+import { UserSignUp, UserSignIn } from "@/core/entities/models/user";
 import { Session } from "@/core/entities/models/session";
 
 // Only the interface that will be implemented inside the infrastructure part.
 export interface IAuthenticationService {
-  createSessionOnSignUp(user: UserAuth): Promise<{ session: Session }>;
-  createSessionOnSignIn(user: UserAuth): Promise<{ session: Session }>;
+  createProfileOnSignUp(user: UserSignUp): Promise<{ session: Session }>;
+  createSessionOnSignIn(user: UserSignIn): Promise<{ session: Session }>;
+  clearSessionOnLogout(): Promise<void>;
   invalidateSession(): Promise<void>;
 }
