@@ -9,18 +9,18 @@ export default function ChatHeader() {
   }
 
   const pathnameParts = pathname.split("/");
-  const topic = pathnameParts[pathnameParts.length - 1];
+  const topic = pathnameParts[pathnameParts.length - 1].replace("-", " ");
+
+  const topicTitle = topic
+    .split(" ")
+    .map((e) => e[0].toUpperCase().concat(e.slice(1)))
+    .join(" ");
 
   return (
     <article className="text-center bg-dark-gray-1 rounded-md py-4">
       <header>
-        <h2>{CHAT_HEADERS[topic as keyof typeof CHAT_HEADERS] || ""}</h2>
+        <h2>Chatting About: {topicTitle}</h2>
       </header>
     </article>
   );
 }
-
-const CHAT_HEADERS = {
-  runtime: "JavaScript - Runtime",
-  concepts: "JavaScript - Concepts",
-};
