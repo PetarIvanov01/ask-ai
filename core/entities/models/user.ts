@@ -6,5 +6,6 @@ export const userSchema = z.object({
   username: z.string().min(3).max(31),
 });
 
-export type UserAuth = z.infer<typeof userSchema>;
-export type UserProfile = Omit<UserAuth, "password">;
+export type UserSignUp = z.infer<typeof userSchema>;
+export type UserSignIn = Omit<UserSignUp, "username">;
+export type UserProfile = Omit<UserSignUp, "password" | "email">;
