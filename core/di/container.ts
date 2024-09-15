@@ -1,5 +1,7 @@
 import { Container } from "inversify";
+
 import { AuthenticationModule } from "./modules/authentication.module";
+import { CategoryModule } from "./modules/category.module";
 import { UsersModule } from "./modules/users.model";
 
 import { DI_SYMBOLS, DI_RETURN_TYPES } from "./types";
@@ -11,6 +13,7 @@ const ApplicationContainer = new Container({
 export const initializeContainer = () => {
   ApplicationContainer.load(AuthenticationModule);
   ApplicationContainer.load(UsersModule);
+  ApplicationContainer.load(CategoryModule);
 };
 
 initializeContainer();
