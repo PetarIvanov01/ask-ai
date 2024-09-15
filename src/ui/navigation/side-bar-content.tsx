@@ -79,7 +79,7 @@ export default function SideBarContent() {
       <div className="mt-auto flex items-center rounded-xl p-2 shadow bg-gradient-to-r shadow-black text-sm text-nowrap overflow-hidden">
         <div>
           <Image
-            src="/prof-icon-2.png"
+            src="/prof-icon.png"
             alt="profile icon"
             width={40}
             height={40}
