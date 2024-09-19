@@ -7,4 +7,5 @@ export interface IAuthenticationService {
   createSessionOnSignIn(user: UserSignIn): Promise<{ session: Session }>;
   clearSessionOnLogout(): Promise<void>;
   invalidateSession(): Promise<void>;
+  getSession(): Promise<Session | null>;
 }
