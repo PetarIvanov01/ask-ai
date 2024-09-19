@@ -11,6 +11,30 @@ import { AuthenticationError } from "@/core/entities/custom-errors/errors";
 // Here is the actual implementation of the Authentication service which is depends on a interface
 @injectable()
 export class AuthenticationService implements IAuthenticationService {
+  async getSession(): Promise<Session | null> {
+    const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    const result = sessionSchema.safeParse({
+      token: session?.access_token,
+      userId: user?.id,
+      username: user?.user_metadata.username,
+      expiresIn: session?.expires_in,
+    });
+
+    if (result.success) {
+      const { data } = result;
+
+      return data;
+    }
+    return null;
+  }
   async clearSessionOnLogout(): Promise<void> {
     const supabase = createClient();
 
