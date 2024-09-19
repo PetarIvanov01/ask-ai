@@ -6,9 +6,6 @@ import { createClient } from "../utils/supabase/server";
 
 @injectable()
 export class UsersRepository implements IUsersRepository {
-  async getUser(id: string): Promise<UserProfile | undefined> {
-    return;
-  }
   async getUserByUsername(username: string): Promise<UserProfile | undefined> {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE
@@ -31,11 +28,8 @@ export class UsersRepository implements IUsersRepository {
       process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE
     );
 
-    const { data, error } = await supabase
-      .from("profiles")
-      .select().single()
-      
-      const {} = await supabase.auth.getUserIdentities()
+    const { data, error } = await supabase.from("profiles").select().single();
+
     if (!data || error !== null) {
       return undefined;
     }
