@@ -3,6 +3,7 @@ import { z } from "zod";
 export const sessionSchema = z.object({
   token: z.string(),
   userId: z.string(),
+  username: z.string(),
   expiresIn: z
     .union([z.date(), z.string(), z.number()])
     .transform((val) => new Date(val)),
