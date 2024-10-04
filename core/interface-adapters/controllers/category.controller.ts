@@ -5,7 +5,9 @@ import { Category, Icon } from "@/core/entities/models/category";
 
 export async function getCategories(): Promise<Category[]> {
   const categoryRepository = getInjection("ICategoryRepository");
-  return await categoryRepository.getCategories();
+  const categories = await categoryRepository.getCategories();
+
+  return categories;
 }
 
 export function getIconURL(fileName: string): Icon["url"] {
