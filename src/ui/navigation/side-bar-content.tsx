@@ -1,9 +1,16 @@
 import Image from "next/image";
 import ChatLink from "./chat-link";
 
-/* When I have a database, I should move the active link logic in children component so here I can fetch the latest chats and propagate them to the client component where the active link logic will handle the rest*/
+import { getIconURL } from "@/core/interface-adapters/controllers/category.controller";
+import { getChatsController } from "@/core/interface-adapters/controllers/chat/chat.controller";
 
-export default function SideBarContent() {
+export default async function SideBarContent({
+  username,
+}: {
+  username: string;
+}) {
+  const data = await getChatsController();
+
   return (
     <>
       <ul className="flex flex-col px-1 text-nowrap overflow-hidden">
@@ -30,50 +37,29 @@ export default function SideBarContent() {
       </ul>
 
       <div className="flex flex-col gap-4 pt-12 text-sm text-nowrap overflow-hidden">
-        <p className="opacity-30 text-sm">Today</p>
-        <ul className="flex flex-col gap-1 ">
-          <ChatLink
-            href="/chat/runtime"
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6 text-green-300"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v8.25A2.25 2.25 0 0 0 6 16.5h2.25m8.25-8.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-7.5A2.25 2.25 0 0 1 8.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 0 0-2.25 2.25v6"
+        {data.map(([date, chats]) => (
+          <div key={date}>
+            <p className="opacity-30 text-sm">{date}</p>
+            <ul className="flex flex-col gap-1 pb-4">
+              {chats?.map((e) => (
+                <ChatLink
+                  key={e.chatId}
+                  href={`/chat/${e.topic.toLowerCase().replace(/\/| /g, "-")}`}
+                  icon={
+                    <Image
+                      src={getIconURL(e.imageUrl)}
+                      width={18}
+                      height={18}
+                      className="size-full"
+                      alt={e.categoryTitle}
+                    />
+                  }
+                  title={e.topic}
                 />
-              </svg>
-            }
-            title="JavaScript - Run..."
-          />
-
-          <ChatLink
-            href="/chat/concepts"
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6 text-red-400"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
-                />
-              </svg>
-            }
-            title="Front-End Conce..."
-          />
-        </ul>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
 
       <div className="mt-auto flex items-center rounded-xl p-2 shadow bg-gradient-to-r shadow-black text-sm text-nowrap overflow-hidden">
@@ -86,7 +72,7 @@ export default function SideBarContent() {
           />
         </div>
 
-        <p className="pl-3 mr-auto">Petar Ivanov</p>
+        <p className="pl-3 mr-auto">@{username}</p>
         <div className="opacity-30">
           <svg
             xmlns="http://www.w3.org/2000/svg"

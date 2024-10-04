@@ -4,9 +4,7 @@ import { useState, ReactNode } from "react";
 export default function SideNavigation({ children }: { children: ReactNode }) {
   const [isOpen, setOpen] = useState(true);
   return (
-    <aside
-      className={`relative flex py-2 bg-dark-gray-1 rounded-md px-2 h-full`}
-    >
+    <aside className="relative flex py-2 bg-dark-gray-1 rounded-md px-2 h-full">
       <button
         type="button"
         className={`bg-dark-gray-1 group items-center w-fit flex ${
