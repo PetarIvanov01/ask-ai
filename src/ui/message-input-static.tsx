@@ -1,41 +1,21 @@
 "use client";
-import { KeyboardEvent } from "react";
-import useResizerInput from "../hooks/useInputResize";
 
-export default function MessageInput({
-  onSubmitFocusMessage,
-  handleSendMessage,
-}: {
-  onSubmitFocusMessage: () => void;
-  handleSendMessage: (userInput: string) => Promise<void>;
-}) {
-  const { textareaRef } = useResizerInput();
+import { usePathname } from "next/navigation";
 
-  const submit = async (value: string | undefined) => {
-    if (value && textareaRef.current) {
-      textareaRef.current.value = "";
-      await handleSendMessage(value);
-      onSubmitFocusMessage();
-    }
-  };
-
-  const onEnterSubmit = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      submit(textareaRef.current?.value);
-    }
-  };
-
+export default function MessageInputStatic() {
+  const pathname = usePathname();
+  if (pathname !== "/") {
+    return null;
+  }
   return (
     <article className="w-full max-h-[600px] min-h-24 flex items-end">
-      <form className="w-full">
+      <div className="w-full">
         <div className="relative flex h-full max-w-full flex-1 flex-col">
           <div className="flex w-full flex-col gap-1.5 rounded-md p-1.5 transition-colors bg-dark-gray-1">
             <div className="flex items-end gap-1.5">
               <div className="flex min-w-0 flex-1 flex-col">
                 <textarea
-                  onKeyDown={onEnterSubmit}
-                  ref={textareaRef}
+                  disabled
                   tabIndex={0}
                   dir="auto"
                   rows={1}
@@ -44,13 +24,7 @@ export default function MessageInput({
                   style={{ height: "60px", overflow: "hidden" }}
                 ></textarea>
               </div>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  submit(textareaRef.current?.value);
-                }}
-                className="mb-3 me-1 flex h-8 w-8 items-center justify-center rounded-full  hover:opacity-70 focus-visible:outline-none bg-white "
-              >
+              <button className="mb-3 me-1 flex h-8 w-8 items-center justify-center rounded-full  hover:opacity-70 focus-visible:outline-none bg-white ">
                 <svg
                   className="size-5 me-0.5"
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +36,7 @@ export default function MessageInput({
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </article>
   );
 }
