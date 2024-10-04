@@ -1,6 +1,8 @@
 import { Suspense } from "react";
-import Categories from "../ui/entry-page/categories";
+
 import MainLayout from "./main-layout";
+
+import Categories from "../ui/entry-page/categories";
 import { SkeletonLoader } from "../ui/entry-page/skeleton";
 
 export default function EntryPage() {

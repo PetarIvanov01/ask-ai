@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
+import ChatHeader from "./chat-header";
+import MessageInputStatic from "../ui/message-input-static";
 import SideNavigation from "../ui/navigation/side-bar";
 import SideBarContent from "../ui/navigation/side-bar-content";
-import ChatHeader from "./chat-header";
 
 import { getSession } from "@/core/interface-adapters/controllers/authentication/session.controller";
-import MessageInputStatic from "../ui/message-input-static";
 
 export default async function MainLayout({
   children,
