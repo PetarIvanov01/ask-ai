@@ -1,8 +1,9 @@
 import { injectable } from "inversify";
+import { createClient } from "../utils/supabase/server";
 
 import type { ICategoryRepository } from "@/core/application/repositories/category.repository.interface";
 import { Icon, type Category } from "@/core/entities/models/category";
-import { createClient } from "../utils/supabase/server";
+import { mapToCategoryDTO } from "@/core/dto/category";
 
 @injectable()
 export class CategoryRepository implements ICategoryRepository {
@@ -24,6 +25,6 @@ export class CategoryRepository implements ICategoryRepository {
       throw new Error(error.message);
     }
 
-    return cardsData;
+    return cardsData.map(mapToCategoryDTO);
   }
 }
