@@ -20,12 +20,18 @@ export default function LiItem({
   return (
     <li className="">
       <Link
-        className={`${activeStyle} flex items-center gap-4 from-gray-600 shadow shadow-dark-gray-1 p-2 rounded-lg  text-white cursor-pointer`}
+        className={`${activeStyle} flex items-center  gap-4 from-gray-600 shadow shadow-dark-gray-1 p-2 rounded-lg text-white cursor-pointer`}
         href={href}
       >
         <div>{icon}</div>
-        {title}
+        <span className="overflow-hidden">{trimEnd(title, 14)}</span>
       </Link>
     </li>
   );
+}
+function trimEnd(str: string, maxL: number) {
+  if (str.length > maxL) {
+    return str.slice(0, maxL).padEnd(maxL + 3, "...");
+  }
+  return str;
 }
