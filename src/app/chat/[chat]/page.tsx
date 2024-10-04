@@ -1,22 +1,10 @@
-import Answer from "@/components/chat/Answer";
-import Question from "@/components/chat/Question";
+import { getConversationController } from "@/core/interface-adapters/controllers/chat/chat.controller";
 
-export default function ChatPage({
+import ChatWindow from "./chat-window";
+
+export default async function ChatRoom({
   params,
-}: Readonly<{
-  params: { chat: string };
-}>) {
-  let i = 0;
-  return (
-    <div className="flex flex-col text-sm md:pb-9">
-      {Array(10)
-        .fill(undefined)
-        .map((e) => {
-          if (i % 2 === 0) {
-            return <Answer index={i} key={i++} />;
-          }
-          return <Question index={i} key={i++} />;
-        })}
-    </div>
-  );
+}: Readonly<{ params: { chat: string } }>) {
+  const chat = await getConversationController(params.chat);
+  return <ChatWindow initialMessages={chat.messages} chatId={chat.chatId} />;
 }
