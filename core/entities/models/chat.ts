@@ -1,12 +1,7 @@
 import { z } from "zod";
 
-const userMessageSchema = z.object({
-  message: z.string().min(2),
-});
-
-const botMessageSchema = z.object({
-  message: z.string().min(2),
-});
+const userMessageSchema = z.string().min(2);
+const botMessageSchema = z.string().min(2);
 
 export const conversationSchema = z.object({
   chatId: z.string(),
@@ -35,4 +30,9 @@ export type MessageSchema = z.infer<typeof messageSchema>;
 export type UserMessageShema = z.infer<typeof userMessageSchema>;
 export type BotMessageShema = z.infer<typeof botMessageSchema>;
 export type ConversationSchema = z.infer<typeof conversationSchema>;
-export type ChatSchema = z.infer<typeof chatSchema>[];
+export type ChatSchema = {
+  chatId: string;
+  messages: z.infer<typeof chatSchema>[];
+};
+
+export type Message = ChatSchema["messages"][number];

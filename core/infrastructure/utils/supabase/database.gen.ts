@@ -37,26 +37,100 @@ export type Database = {
       categories: {
         Row: {
           created_at: string
-          iconUrl: string
+          icon_url: string
           id: number
           options: string[]
           title: string
         }
         Insert: {
           created_at?: string
-          iconUrl?: string
+          icon_url?: string
           id?: number
           options: string[]
-          title: string
+          title?: string
         }
         Update: {
           created_at?: string
-          iconUrl?: string
+          icon_url?: string
           id?: number
           options?: string[]
           title?: string
         }
         Relationships: []
+      }
+      chats: {
+        Row: {
+          category_id: number
+          chat_id: string
+          created_at: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category_id: number
+          chat_id?: string
+          created_at?: string
+          topic: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category_id?: number
+          chat_id?: string
+          created_at?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chats_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          chat_id: string
+          created_at: string
+          message: string
+          message_id: string
+          role: Database["public"]["Enums"]["role"]
+        }
+        Insert: {
+          chat_id: string
+          created_at?: string
+          message: string
+          message_id?: string
+          role?: Database["public"]["Enums"]["role"]
+        }
+        Update: {
+          chat_id?: string
+          created_at?: string
+          message?: string
+          message_id?: string
+          role?: Database["public"]["Enums"]["role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages__chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "chats"
+            referencedColumns: ["chat_id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -92,7 +166,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      role: "user" | "ai"
     }
     CompositeTypes: {
       [_ in never]: never
