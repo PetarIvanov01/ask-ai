@@ -1,5 +1,10 @@
+import ReactMarkdown from "react-markdown";
+
 import Image from "next/image";
 import logo from "/public/original-icon.png";
+
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 export default function BotMessage({ message }: { message: string }) {
   return (
@@ -16,7 +21,13 @@ export default function BotMessage({ message }: { message: string }) {
             </div>
           </div>
           <div className="relative flex w-full min-w-0 flex-col agent-turn">
-            {message}
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              className=" text-gray-200 prose-li:text-base prose-strong:font-bold   prose-headings:text-white prose-p:text-gray-200 prose-a:text-blue-300 prose-strong:text-white prose-code:text-gray-300 prose-pre:bg-gray-800 prose-pre:text-gray-100 prose-th:text-gray-300 prose-td:text-gray-200 prose-blockquote:text-gray-400 prose-blockquote:border-gray-600 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base prose-h5:text-sm prose-h6:text-xs lg:prose-xl"
+            >
+              {message}
+            </ReactMarkdown>
           </div>
         </div>
       </div>
