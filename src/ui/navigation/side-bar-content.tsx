@@ -39,7 +39,7 @@ export default async function SideBarContent({
       <div className="flex flex-col gap-4 pt-12 text-sm text-nowrap overflow-hidden">
         {data.map(([date, chats]) => (
           <div key={date}>
-            <p className="opacity-30 text-sm">{date}</p>
+            <p className="opacity-30 text-sm pb-2">{date}</p>
             <ul className="flex flex-col gap-1 pb-4">
               {chats?.map((e) => (
                 <ChatLink
