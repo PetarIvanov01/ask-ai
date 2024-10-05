@@ -23,7 +23,6 @@ export async function login(
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
-  console.log(data);
 
   await wait(2000);
   try {
