@@ -5,7 +5,7 @@ import { Message } from "@/core/entities/models/chat";
 import {
   createBotMessageController,
   createUserMessageController,
-} from "@/core/interface-adapters/controllers/chat/chat.controller";
+} from "@/core/interface-adapters/controllers/messages/messages.controller";
 
 export async function createUserMessageAction(
   message: string,
@@ -14,6 +14,7 @@ export async function createUserMessageAction(
   if (message === "") {
     throw new Error("Message should be atleast 10 charactars.");
   }
+
   return await createUserMessageController(message, chatId);
 }
 
