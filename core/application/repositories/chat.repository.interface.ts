@@ -21,4 +21,9 @@ export interface IChat {
     categoryId: number
   ): Promise<void>;
   getChatByTopic(chatTopic: string, ownerId: string): Promise<ChatSchema>;
+  getChatById(
+    chatId: string,
+    ownerId: string
+  ): Promise<{ chatId: string; topic: string }>;
+  getAiInstructions(chatId: string): Promise<{ instructions: string }>;
 }
