@@ -1,4 +1,6 @@
 "use client";
+import { Nunito } from "next/font/google";
+
 import { useRef, useState } from "react";
 
 import MessageInput from "@/src/ui/message-input";
@@ -7,6 +9,8 @@ import UserMessage from "./user-message";
 
 import { ChatSchema } from "@/core/entities/models/chat";
 import { createBotMessageAction, createUserMessageAction } from "./actions";
+
+const nunito = Nunito({ subsets: ["latin"], weight: "500" });
 
 type Message = ChatSchema["messages"][number];
 
@@ -41,7 +45,7 @@ export default function ChatWindow({
   };
 
   return (
-    <div className="flex flex-col text-sm h-full">
+    <div className={`${nunito.className} flex flex-col text-sm h-full`}>
       <div ref={focusRef} className="flex-grow overflow-auto">
         {messages.map((message) =>
           message.role === "user" ? (
