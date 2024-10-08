@@ -20,10 +20,13 @@ export interface IChat {
     chatTopic: string,
     categoryId: number
   ): Promise<void>;
-  getChatByTopic(chatTopic: string, ownerId: string): Promise<ChatSchema>;
+  getChatByTopic(
+    chatTopic: string,
+    ownerId: string
+  ): Promise<ChatSchema | null>;
   getChatById(
     chatId: string,
     ownerId: string
   ): Promise<{ chatId: string; topic: string }>;
-  getAiInstructions(chatId: string): Promise<{ instructions: string }>;
+  getAiInstructions(chatTopic: string): Promise<{ instructions: string }>;
 }
