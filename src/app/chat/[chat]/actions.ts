@@ -20,10 +20,11 @@ export async function createUserMessageAction(
 
 export async function createBotMessageAction(
   message: string,
-  chatId: string
+  chatId: string,
+  chatTopic: string
 ): Promise<Message> {
   if (message === "") {
     throw new Error("Message should be atleast 10 charactars.");
   }
-  return await createBotMessageController(message, chatId);
+  return await createBotMessageController(message, chatId, chatTopic);
 }
