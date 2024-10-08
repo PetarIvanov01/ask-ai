@@ -1,12 +1,12 @@
+import { memo } from "react";
 import ReactMarkdown from "react-markdown";
 
 import Image from "next/image";
-import logo from "/public/original-icon.png";
 
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 
-export default function BotMessage({ message }: { message: string }) {
+function BotMessage({ message }: { message: string }) {
   return (
     <article className="w-full text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <div className="text-base py-[18px] px-3 m-auto md:px-5">
@@ -15,7 +15,12 @@ export default function BotMessage({ message }: { message: string }) {
             <div className="pt-0">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
                 <div className="relative p-1 rounded-sm flex items-center justify-center bg-token-main-surface-primary text-token-text-primary">
-                  <Image src={logo} width={100} height={65} alt="logo" />
+                  <Image
+                    src="/original-icon.png"
+                    width={100}
+                    height={65}
+                    alt="logo"
+                  />
                 </div>
               </div>
             </div>
@@ -34,3 +39,5 @@ export default function BotMessage({ message }: { message: string }) {
     </article>
   );
 }
+
+export default memo(BotMessage);
