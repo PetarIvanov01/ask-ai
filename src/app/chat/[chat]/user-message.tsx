@@ -1,4 +1,6 @@
-export default function UserMessage({ message }: { message: string }) {
+import { memo } from "react";
+
+function UserMessage({ message }: { message: string }) {
   return (
     <article className="w-full text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <div className="text-base py-[18px] px-3 m-auto md:px-5">
@@ -23,3 +25,4 @@ export default function UserMessage({ message }: { message: string }) {
     </article>
   );
 }
+export default memo(UserMessage);
