@@ -1,8 +1,9 @@
 "use client";
 import { Nunito } from "next/font/google";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
+import useFocusMessage from "@/src/hooks/useFocusMessage";
 import MessageInput from "@/src/ui/message-input";
 import BotMessage from "./bot-message";
 import UserMessage from "./user-message";
@@ -17,15 +18,13 @@ type Message = ChatSchema["messages"][number];
 export default function ChatWindow({
   initialMessages,
   chatId,
+  topic,
 }: {
   initialMessages: Message[];
   chatId: string;
+  topic: string;
 }) {
-  const focusRef = useRef<HTMLDivElement>(null);
-  const onSubmitFocusMessage = () => {
-    focusRef.current?.scrollTo(0, focusRef.current.scrollHeight);
-  };
-
+  const { focusRef, onSubmitFocusMessage } = useFocusMessage();
   const [messages, setMessages] = useState(initialMessages);
 
   const handleSendMessage = async (userInput: string) => {
@@ -36,7 +35,7 @@ export default function ChatWindow({
 
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     try {
-      const botMessage = await createBotMessageAction(userInput, chatId);
+      const botMessage = await createBotMessageAction(userInput, chatId, topic);
 
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
@@ -46,7 +45,7 @@ export default function ChatWindow({
 
   return (
     <div className={`${nunito.className} flex flex-col text-sm h-full`}>
-      <div ref={focusRef} className="flex-grow overflow-auto">
+      <div className="flex-grow overflow-auto">
         {messages.map((message) =>
           message.role === "user" ? (
             <UserMessage message={message.message} key={message.messageId} />
@@ -54,6 +53,7 @@ export default function ChatWindow({
             <BotMessage message={message.message} key={message.messageId} />
           )
         )}
+        <div ref={focusRef} />
       </div>
 
       <MessageInput
