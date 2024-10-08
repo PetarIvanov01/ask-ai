@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+
 import { createChat } from "./actions";
+import { useRouter } from "next/navigation";
 
 type CardProps = Readonly<{
   id: number;
@@ -12,9 +13,11 @@ type CardProps = Readonly<{
 }>;
 
 export default function Card({ image, title, options, id }: CardProps) {
+  const route = useRouter();
   const onClickCreateChat =
     (chatTopic: string, categoryId: number) => async () => {
       await createChat(chatTopic, categoryId);
+      route.push(`/chat/${chatTopic.toLowerCase().replace(/\/| /g, "-")}`);
     };
 
   return (
@@ -25,14 +28,13 @@ export default function Card({ image, title, options, id }: CardProps) {
       <h2 className="text-xl font-semibold mb-4">{title}</h2>
       <div className="w-60">
         {options.map((option, index) => (
-          <Link
+          <span
             onClick={onClickCreateChat(option, id)}
-            href={`/chat/${option.toLowerCase().replace(/\/| /g, "-")}`}
             key={index}
             className="flex justify-between items-center shadow-lg text-sm bg-darker-gray p-4 mb-2 rounded-lg cursor-pointer hover:bg-dark-gray-1 transition-colors duration-200"
           >
             {option} <span className="text-gray-600">→</span>
-          </Link>
+          </span>
         ))}
       </div>
     </div>
