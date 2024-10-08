@@ -14,8 +14,8 @@ export default function MessageInput({
   const submit = async (value: string | undefined) => {
     if (value && textareaRef.current) {
       textareaRef.current.value = "";
-      await handleSendMessage(value);
       onSubmitFocusMessage();
+      await handleSendMessage(value);
     }
   };
 
