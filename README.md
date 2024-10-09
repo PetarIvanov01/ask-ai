@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ask-AI
+
+Ask-AI is a Next.js web application designed to help programmers and developers improve their theoretical knowledge through AI-driven conversational learning. Users can engage in interactive conversations with an AI, receive feedback on their answers, and gain suggestions for improvement, making it an ideal tool for enhancing theoretical understanding in various programming domains.
+
+## Purpose
+
+The application aims to assist developers in refining their knowledge by providing feedback on explanations, highlighting areas for improvement, and offering guidance on how to expand their understanding. By focusing on specific topics or subtopics, users can deepen their theoretical knowledge through conversational learning.
+
+## About the Project
+
+Ask-AI provides an interactive platform where developers can engage in conversations with an AI to improve their theoretical knowledge. By selecting a category and subcategory, users can tailor their learning experience to specific programming topics and receive real-time feedback from the AI, which helps identify strengths and areas for improvement.
+
+## Features
+
+- **Category and Subcategory Selection**: Users can focus on specific programming topics like JavaScript, Python, or Go, as well as areas like design patterns and system design.
+- **AI-Driven Conversations**: The AI engages users in a dialogue, asking questions and providing explanations.
+- **Feedback System**: Real-time feedback is provided to help users identify areas where their understanding is lacking.
+- **Contextual Prompts**: The AI prompts users with questions based on their selected category and subcategory.
+- **Conversation Constraints**: Structured conversation rules help maintain focused and productive discussions.
+
+## Future Features
+
+- **Internationalization**: Multilingual support to reach a global audience.
+- **Progress Tracking**: Track user performance over time and provide analytics.
+
+## Design and Layout
+
+The design of the Ask-AI application focuses on user-friendly navigation and intuitive interfaces for an optimal learning experience. Below are screenshots and a short video demonstrating the core features.
+
+### Visuals
+
+<details>
+  <summary>Login/Register Page</summary>
+  <img src="screenshots/sign-up.png" alt="Login/Register Screenshot" width="800">
+</details>
+
+<details>
+  <summary>Category Selection Page</summary>
+  <img src="screenshots/entry-page.png" alt="Category Page Screenshot" width="800">
+</details>
+
+### Demo Video
+
+This video demonstrates how users can ask programming-related questions, and the AI will provide detailed feedback and suggestions for improvement.
+
+[![Watch Demo Video](screenshots/entry-page.png)](screenshots/FocusAI%20—%20Overview.mp4)
 
 ## Getting Started
 
-First, run the development server:
+To get a local copy up and running, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ensure you have **Node.js** installed. You can download it from [Node.js](https://nodejs.org/).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/PetarIvanov01/ask-ai.git
+   ```
