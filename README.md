@@ -43,7 +43,7 @@ The design of the Ask-AI application focuses on user-friendly navigation and int
 
 This video demonstrates how users can ask programming-related questions, and the AI will provide detailed feedback and suggestions for improvement.
 
-[![Watch Demo Video](screenshots/entry-page.png)](screenshots/FocusAI%20—%20Overview.mp4)
+[![Watch Demo Video](screenshots/entry-page.png)](https://youtu.be/nruIQ_akWag)
 
 ## Getting Started
 
