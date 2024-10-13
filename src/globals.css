@@ -46,3 +46,15 @@ body,
     font-size: 11px;
   }
 }
+
+.svg-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (min-width: 640px) {
+  .svg-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
