@@ -7,13 +7,11 @@ export async function createChatUseCase(
 ) {
   const chatRepository = getInjection("IChat");
 
-  try {
-    const existing = await chatRepository.getChatByTopic(chatTopic, ownerId);
+  const existing = await chatRepository.getChatByTopic(chatTopic, ownerId);
 
-    if (existing) {
-      return;
-    }
-  } catch (error) {}
+  if (existing) {
+    return existing;
+  }
 
   return await chatRepository.createChat(ownerId, chatTopic, categoryId);
 }
