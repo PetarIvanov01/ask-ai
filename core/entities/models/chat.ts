@@ -8,16 +8,9 @@ export const conversationSchema = z.object({
   userId: z.string().uuid(),
   updatedAt: z.coerce.date(),
   categoryTitle: z.string(),
+  chatName: z.string(),
   topic: z.string(),
   imageUrl: z.string(),
-});
-
-export const messageSchema = z.object({
-  chatId: z.string(),
-  messageId: z.number(),
-  userMessage: z.string().min(2),
-  botResponse: z.string().min(2),
-  createdAt: z.string(),
 });
 
 export const chatSchema = z.object({
@@ -26,12 +19,14 @@ export const chatSchema = z.object({
   role: z.enum(["user", "ai"]),
 });
 
-export type MessageSchema = z.infer<typeof messageSchema>;
 export type UserMessageShema = z.infer<typeof userMessageSchema>;
 export type BotMessageShema = z.infer<typeof botMessageSchema>;
 export type ConversationSchema = z.infer<typeof conversationSchema>;
+
 export type ChatSchema = {
   chatId: string;
+  chatName: string;
+  chatTopic: string;
   messages: z.infer<typeof chatSchema>[];
 };
 
