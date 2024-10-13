@@ -7,20 +7,27 @@ import { mapToCategoryDTO } from "@/core/dto/category";
 
 @injectable()
 export class CategoryRepository implements ICategoryRepository {
+  private supabase = createClient();
   getIcon(fileName: string): Icon {
-    const supabase = createClient();
-    const { data: imageUrl } = supabase.storage
+    const { data: imageUrl } = this.supabase.storage
       .from("categories-icons")
       .getPublicUrl(fileName);
 
     return { url: imageUrl.publicUrl };
   }
   async getCategories(): Promise<Category[]> {
-    const supabase = createClient();
-
-    const response = await supabase.from("categories").select();
+    const response = await this.supabase.from("categories").select(
+      `
+      id,
+      created_at,
+      title,
+      icon_url,
+      category_options (id, topic, category_id)
+      `
+    );
 
     const { data: cardsData, error } = response;
+
     if (error) {
       throw new Error(error.message);
     }
