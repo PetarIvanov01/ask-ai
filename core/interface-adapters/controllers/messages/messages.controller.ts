@@ -8,7 +8,8 @@ import { createUserMessageUseCase } from "@/core/application/use-cases/chat/crea
 
 export async function createBotMessageController(
   message: string,
-  chatId: string
+  chatId: string,
+  chatTopic: string
 ): Promise<Message> {
   const authService = getInjection("IAuthenticationService");
   const session = await authService.getSession();
@@ -17,7 +18,7 @@ export async function createBotMessageController(
     throw new AuthenticationError("Not Authenticated");
   }
 
-  const data = await createBotMessageUseCase(message, chatId);
+  const data = await createBotMessageUseCase(message, chatId, chatTopic);
   return {
     message: data.message,
     messageId: data.messageId,
@@ -32,7 +33,7 @@ export async function createUserMessageController(
   const authService = getInjection("IAuthenticationService");
   const session = await authService.getSession();
 
-  if (!session?.userId) {
+  if (!session) {
     throw new AuthenticationError("Not Authenticated");
   }
 
