@@ -8,7 +8,6 @@ import { UserSignUp, UserSignIn } from "@/core/entities/models/user";
 import { createClient } from "../utils/supabase/server";
 import { AuthenticationError } from "@/core/entities/custom-errors/errors";
 
-// Here is the actual implementation of the Authentication service which is depends on a interface
 @injectable()
 export class AuthenticationService implements IAuthenticationService {
   async getSession(): Promise<Session | null> {
@@ -53,6 +52,7 @@ export class AuthenticationService implements IAuthenticationService {
       token: data.session?.access_token,
       userId: data.user?.id,
       expiresIn: data.session?.expires_in,
+      username: data.user?.user_metadata?.username,
     });
 
     return {
@@ -82,6 +82,7 @@ export class AuthenticationService implements IAuthenticationService {
     }
 
     const session = sessionSchema.parse({
+      username: data.user?.user_metadata.username,
       token: data.session?.access_token,
       userId: data.user?.id,
       expiresIn: data.session?.expires_in,
