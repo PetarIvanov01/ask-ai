@@ -10,12 +10,26 @@ const model = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 export class AiService implements IAiService {
   private model = "gemini-1.5-flash";
 
-  async createBotResponse(message: string): Promise<BotMessageShema> {
+  async createBotResponse(
+    message: string,
+    instructions: string
+  ): Promise<BotMessageShema> {
     const { response } = await model
       .getGenerativeModel({
         model: this.model,
+        systemInstruction: instructions,
       })
       .generateContent(message);
+    return response.text();
+  }
+  async startConversation(instructions: string): Promise<BotMessageShema> {
+    const { response } = await model
+      .getGenerativeModel({
+        model: this.model,
+        systemInstruction: instructions,
+      })
+      .generateContent("Based on the instructions, who are you?");
+
     return response.text();
   }
 }
