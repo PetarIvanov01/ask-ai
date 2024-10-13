@@ -2,6 +2,7 @@ import { type NextRequest } from "next/server";
 import { updateSession } from "@/core/infrastructure/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  request.headers.set("x-current-path", request.nextUrl.pathname);
   return await updateSession(request);
 }
 
