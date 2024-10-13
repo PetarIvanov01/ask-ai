@@ -14,31 +14,70 @@ import { createClient } from "../utils/supabase/server";
 
 @injectable()
 export class Chat implements IChat {
-  async getChatByTopic(
-    chatTopic: string,
-    ownerId: string
-  ): Promise<ChatSchema> {
-    const supabase = createClient();
+  private supabase = createClient();
 
-    const { data: cData, error: cError } = await supabase
+  async renameChatById(chatId: string, newName: string): Promise<void> {
+    const { error } = await this.supabase
+      .from("chats")
+      .update({ chat_name: newName })
+      .eq("chat_id", chatId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async resetChatById(chatId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from("messages")
+      .delete()
+      .eq("chat_id", chatId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async deleteChatById(chatId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from("chats")
+      .delete()
+      .eq("chat_id", chatId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async getChatById(
+    chatId: string,
+    ownerId: string
+  ): Promise<ChatSchema | null> {
+    const { data: cData, error: cError } = await this.supabase
       .from("chats")
       .select(
         `
-      chat_id
+      chat_id,
+      topic,
+      chat_name
       `
       )
       .eq("user_id", ownerId)
-      .eq("topic", chatTopic)
+      .eq("chat_id", chatId)
       .single();
 
     if (cError) {
+      if (cError.code === "PGRST116") {
+        return null;
+      }
       throw cError;
     }
 
-    const { data: mData, error: mError } = await supabase
+    const { data: mData, error: mError } = await this.supabase
       .from("messages")
       .select(`*`)
-      .eq("chat_id", cData.chat_id);
+      .eq("chat_id", cData.chat_id)
+      .order("created_at", { ascending: true });
 
     if (mError) {
       throw mError;
@@ -46,6 +85,8 @@ export class Chat implements IChat {
 
     return {
       chatId: cData.chat_id,
+      chatName: cData.chat_name,
+      chatTopic: cData.topic,
       messages: mData.map((e) =>
         chatSchema.parse({
           messageId: e.message_id,
@@ -56,9 +97,37 @@ export class Chat implements IChat {
     };
   }
 
+  async getChatByTopic(
+    chatTopic: string,
+    ownerId: string
+  ): Promise<{ chatId: string; topic: string } | null> {
+    const { data, error: cError } = await this.supabase
+      .from("chats")
+      .select(
+        `
+      chat_id,
+      topic
+      `
+      )
+      .eq("user_id", ownerId)
+      .eq("topic", chatTopic)
+      .single();
+
+    if (cError) {
+      if (cError.code === "PGRST116") {
+        return null;
+      }
+      throw cError;
+    }
+
+    return {
+      chatId: data.chat_id,
+      topic: data.topic,
+    };
+  }
+
   async getChats(ownerId: string): Promise<ConversationSchema[]> {
-    const supabase = createClient();
-    const { data, error } = await supabase
+    const { data, error } = await this.supabase
       .from("chats")
       .select(
         `
@@ -66,6 +135,7 @@ export class Chat implements IChat {
       user_id,
       category_id,
       topic,
+      chat_name,
       updated_at,
       categories ( id, title, icon_url )
       `
@@ -83,34 +153,69 @@ export class Chat implements IChat {
         updatedAt: e.updated_at,
         imageUrl: e.categories?.icon_url,
         topic: e.topic,
+        chatName: e.chat_name,
         categoryTitle: e.categories?.title,
       })
     );
+  }
+
+  async getChatDetailsById(
+    chatId: string,
+    ownerId: string
+  ): Promise<{ topic: string; createdAt: string; updatedAt: string }> {
+    const { data, error } = await this.supabase
+      .from("chats")
+      .select(
+        `
+      chat_id,
+      topic,
+      chat_name,
+      created_at,
+      updated_at
+      `
+      )
+      .eq("user_id", ownerId)
+      .eq("chat_id", chatId)
+      .single();
+    if (error) {
+      throw error;
+    }
+
+    return {
+      topic: data.chat_name,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
   }
 
   async createChat(
     ownerId: string,
     chatTopic: string,
     categoryId: number
-  ): Promise<void> {
-    const supabase = createClient();
-
-    await supabase.from("chats").upsert({
+  ): Promise<{ chatId: string }> {
+    const { data, error } = await this.supabase.from("chats").upsert({
       topic: chatTopic,
       user_id: ownerId,
       category_id: categoryId,
-    });
+      chat_name: chatTopic,
+    }).select(`
+      chat_id
+      `);
 
-    return;
+    if (error) {
+      throw error;
+    }
+
+    return {
+      chatId: data[0].chat_id,
+    };
   }
 
   async createUserMessage(
     input: UserMessageShema,
     chatId: string
   ): Promise<{ message: BotMessageShema; chatId: string; messageId: string }> {
-    const supabase = createClient();
-
-    const { data, error } = await supabase
+    const { data, error } = await this.supabase
       .from("messages")
       .insert({
         chat_id: chatId,
@@ -136,8 +241,7 @@ export class Chat implements IChat {
     input: BotMessageShema,
     chatId: string
   ): Promise<{ message: BotMessageShema; chatId: string; messageId: string }> {
-    const supabase = createClient();
-    const { data, error } = await supabase
+    const { data, error } = await this.supabase
       .from("messages")
       .insert({
         chat_id: chatId,
@@ -156,6 +260,25 @@ export class Chat implements IChat {
       message: message,
       messageId: message_id,
       chatId: chat_id,
+    };
+  }
+
+  async getAiInstructions(
+    chatTopic: string
+  ): Promise<{ instructions: string }> {
+    const { error, data } = await this.supabase
+      .from("category_options")
+      .select(`topic, ai_instructions`)
+      .eq("topic", chatTopic);
+
+    if (error) {
+      throw error;
+    }
+
+    const { ai_instructions } = data[0];
+
+    return {
+      instructions: ai_instructions,
     };
   }
 }
