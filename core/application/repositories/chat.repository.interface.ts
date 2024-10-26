@@ -2,6 +2,7 @@ import {
   BotMessageShema,
   ChatSchema,
   ConversationSchema,
+  CustomChatSchema,
   UserMessageShema,
 } from "@/core/entities/models/chat";
 
@@ -21,6 +22,10 @@ export interface IChat {
     ownerId: string,
     chatTopic: string,
     categoryId: number
+  ): Promise<{ chatId: string }>;
+  createCustomizableChat(
+    ownerId: string,
+    options: CustomChatSchema
   ): Promise<{ chatId: string }>;
   createUserMessage(
     input: UserMessageShema,
