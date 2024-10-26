@@ -8,7 +8,7 @@ import { getConversationUseCase } from "@/core/application/use-cases/chat/get-co
 import { getChatsUseCase } from "@/core/application/use-cases/chat/get-chats.use-case";
 import { createChatUseCase } from "@/core/application/use-cases/chat/create-chat.use-case";
 import { startConversationUseCase } from "@/core/application/use-cases/chat/start-chat.use-case";
-import { ChatSchema } from "@/core/entities/models/chat";
+import { ChatSchema, CustomChatSchema } from "@/core/entities/models/chat";
 
 export async function getChatsController() {
   try {
@@ -57,6 +57,7 @@ export async function getConversationController(chatId: string) {
     throw new AuthenticationError("Not Authenticated");
   }
 
+  // New logic has to be added for custom created chats
   const conversation = await getConversationUseCase(chatId, session.userId);
 
   if (!conversation) {
@@ -64,6 +65,7 @@ export async function getConversationController(chatId: string) {
   }
 
   if (conversation.messages.length === 0) {
+    // New logic has to be added for custom created chats
     const newMessage = await startConversationUseCase(
       conversation.chatId,
       conversation.chatTopic
@@ -72,6 +74,8 @@ export async function getConversationController(chatId: string) {
     return {
       chatId: conversation.chatId,
       messages: [newMessage],
+      chatTopic: conversation.chatTopic,
+      chatName: conversation.chatName,
     } as ChatSchema;
   }
 
@@ -113,4 +117,15 @@ export async function getChatController(chatId: string, ownerId: string) {
     };
   }
   // This should be called in use-case but it is one line of code
+}
+
+export async function createCustomChatController(body: CustomChatSchema) {
+  const authRepository = getInjection("IAuthenticationService");
+
+  const session = await authRepository.getSession();
+
+  if (!session) {
+    throw new AuthenticationError("Not Authenticated");
+  }
+  // Call the use case for creation
 }
