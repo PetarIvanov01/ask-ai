@@ -39,46 +39,122 @@ export type Database = {
           created_at: string
           icon_url: string
           id: number
-          options: string[]
           title: string
         }
         Insert: {
           created_at?: string
           icon_url?: string
           id?: number
-          options: string[]
           title?: string
         }
         Update: {
           created_at?: string
           icon_url?: string
           id?: number
-          options?: string[]
           title?: string
         }
         Relationships: []
       }
+      category_options: {
+        Row: {
+          ai_instructions: string
+          category_id: number | null
+          created_at: string
+          id: number
+          topic: string
+        }
+        Insert: {
+          ai_instructions?: string
+          category_id?: number | null
+          created_at?: string
+          id?: number
+          topic?: string
+        }
+        Update: {
+          ai_instructions?: string
+          category_id?: number | null
+          created_at?: string
+          id?: number
+          topic?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_options_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_settings: {
+        Row: {
+          background: string | null
+          chat_id: string
+          id: number
+          language: Database["public"]["Enums"]["languages"]
+          length: Database["public"]["Enums"]["response-length"]
+          personality: Database["public"]["Enums"]["personalities"]
+          proficiency: Database["public"]["Enums"]["proficiencies"]
+          tags: string | null
+        }
+        Insert: {
+          background?: string | null
+          chat_id: string
+          id?: number
+          language?: Database["public"]["Enums"]["languages"]
+          length?: Database["public"]["Enums"]["response-length"]
+          personality?: Database["public"]["Enums"]["personalities"]
+          proficiency?: Database["public"]["Enums"]["proficiencies"]
+          tags?: string | null
+        }
+        Update: {
+          background?: string | null
+          chat_id?: string
+          id?: number
+          language?: Database["public"]["Enums"]["languages"]
+          length?: Database["public"]["Enums"]["response-length"]
+          personality?: Database["public"]["Enums"]["personalities"]
+          proficiency?: Database["public"]["Enums"]["proficiencies"]
+          tags?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_settings_chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "chats"
+            referencedColumns: ["chat_id"]
+          },
+        ]
+      }
       chats: {
         Row: {
-          category_id: number
+          category_id: number | null
           chat_id: string
+          chat_name: string
           created_at: string
+          custom: boolean | null
           topic: string
           updated_at: string
           user_id: string
         }
         Insert: {
-          category_id: number
+          category_id?: number | null
           chat_id?: string
+          chat_name?: string
           created_at?: string
+          custom?: boolean | null
           topic: string
           updated_at?: string
           user_id: string
         }
         Update: {
-          category_id?: number
+          category_id?: number | null
           chat_id?: string
+          chat_name?: string
           created_at?: string
+          custom?: boolean | null
           topic?: string
           updated_at?: string
           user_id?: string
@@ -166,6 +242,10 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      languages: "english" | "bulgarian"
+      personalities: "friendly" | "professional" | "humorous"
+      proficiencies: "beginner" | "intermediate" | "advanced"
+      "response-length": "short" | "medium" | "detailed"
       role: "user" | "ai"
     }
     CompositeTypes: {
