@@ -33,7 +33,7 @@ export default function CreateChatForm() {
           type="text"
           name="topic"
           placeholder="Enter chat topic..."
-          error={errors?.topic[0]}
+          error={errors?.topic}
         />
 
         <CustomInput
@@ -41,34 +41,35 @@ export default function CreateChatForm() {
           type="text"
           name="title"
           placeholder="Enter chat title..."
-          error={errors?.title[0]}
+          error={errors?.title}
         />
 
         <CustomSelect
-          label="Level of Proficiency"
           name="proficiency"
+          label="Level of Proficiency"
           options={proficiencyOptions}
-          error={errors?.proficiency[0]}
+          error={errors?.proficiency}
         />
 
         <CustomSelect
           name="personality"
           label="Bot Personality"
           options={botPersonalityOptions}
-          error={errors?.personality[0]}
+          error={errors?.personality}
         />
 
         <CustomSelect
           name="language"
           label="Language"
           options={languageOptions}
-          error={errors?.language[0]}
+          error={errors?.language}
         />
 
         <CustomSelect
+          name="responseLength"
           label="Response Length"
           options={responseLengthOptions}
-          error={errors?.responseLength[0]}
+          error={errors?.responseLength}
         />
       </div>
 
@@ -92,7 +93,7 @@ export default function CreateChatForm() {
         type="text"
         name="tag"
         placeholder="Add tags (e.g. Business, Learning)..."
-        error={errors?.tags && errors.tags[0]}
+        error={errors?.tags}
       />
 
       <button
