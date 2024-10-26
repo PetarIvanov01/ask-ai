@@ -9,7 +9,7 @@ export default async function ChatRoom({
 
   return (
     <ChatWindow
-      topic={chat.chatName}
+      topic={chat.chatTopic}
       initialMessages={chat.messages}
       chatId={chat.chatId}
     />
