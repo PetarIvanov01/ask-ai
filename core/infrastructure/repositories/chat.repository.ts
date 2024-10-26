@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 
 import { IChat } from "@/core/application/repositories/chat.repository.interface";
+
 import {
   ConversationSchema,
   UserMessageShema,
@@ -8,6 +9,7 @@ import {
   ChatSchema,
   conversationSchema,
   chatSchema,
+  CustomChatSchema,
 } from "@/core/entities/models/chat";
 
 import { createClient } from "../utils/supabase/server";
@@ -16,39 +18,13 @@ import { createClient } from "../utils/supabase/server";
 export class Chat implements IChat {
   private supabase = createClient();
 
-  async renameChatById(chatId: string, newName: string): Promise<void> {
-    const { error } = await this.supabase
-      .from("chats")
-      .update({ chat_name: newName })
-      .eq("chat_id", chatId);
-
-    if (error) {
-      throw error;
-    }
+  createCustomizableChat(
+    ownerId: string,
+    options: CustomChatSchema
+  ): Promise<{ chatId: string }> {
+    throw new Error("Method not implemented.");
   }
-
-  async resetChatById(chatId: string): Promise<void> {
-    const { error } = await this.supabase
-      .from("messages")
-      .delete()
-      .eq("chat_id", chatId);
-
-    if (error) {
-      throw error;
-    }
-  }
-
-  async deleteChatById(chatId: string): Promise<void> {
-    const { error } = await this.supabase
-      .from("chats")
-      .delete()
-      .eq("chat_id", chatId);
-
-    if (error) {
-      throw error;
-    }
-  }
-
+  /** GET -> Retriave Chat */
   async getChatById(
     chatId: string,
     ownerId: string
@@ -188,6 +164,7 @@ export class Chat implements IChat {
     };
   }
 
+  /** POST -> Create chat */
   async createChat(
     ownerId: string,
     chatTopic: string,
@@ -211,6 +188,7 @@ export class Chat implements IChat {
     };
   }
 
+  /** Chat messages methods */
   async createUserMessage(
     input: UserMessageShema,
     chatId: string
@@ -261,6 +239,40 @@ export class Chat implements IChat {
       messageId: message_id,
       chatId: chat_id,
     };
+  }
+
+  /** PUT/DELETE -> Chat Actions */
+  async renameChatById(chatId: string, newName: string): Promise<void> {
+    const { error } = await this.supabase
+      .from("chats")
+      .update({ chat_name: newName })
+      .eq("chat_id", chatId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async resetChatById(chatId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from("messages")
+      .delete()
+      .eq("chat_id", chatId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async deleteChatById(chatId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from("chats")
+      .delete()
+      .eq("chat_id", chatId);
+
+    if (error) {
+      throw error;
+    }
   }
 
   async getAiInstructions(
