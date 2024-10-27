@@ -18,7 +18,7 @@ const config: Config = {
         width: "width",
       },
       colors: {
-        "dark-gray-1": "#131617",
+        "dark-gray-1": "#131619",
         "darker-gray": "#0D0F10",
         "dark-gray-2": "#121518",
         "dark-gray-3": "#0F1113",
