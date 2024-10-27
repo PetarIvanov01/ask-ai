@@ -32,11 +32,11 @@ export default function SideNavigation({ children }: { children: ReactNode }) {
       <div
         className={`flex flex-col transition-width duration-300 ease-in ${
           isOpen
-            ? "translate-x-0 min-[240px]:w-[150px] sm:w-[200px]"
+            ? "translate-x-0 min-[240px]:w-[150px] sm:w-[245px]"
             : "-translate-x-full w-0 opacity-0"
         }`}
       >
-        <ul className="flex flex-col pt-1 px-1 text-nowrap overflow-hidden mb-10">
+        <ul className="flex flex-col pt-1 px-1 text-nowrap overflow-hidden pb-3">
           <li className="flex items-center justify-between py-1">
             <p className="uppercase text-sm">General</p>
             <button
