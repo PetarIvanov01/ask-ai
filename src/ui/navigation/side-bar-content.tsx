@@ -1,8 +1,9 @@
 import Image from "next/image";
-import ChatLink from "./chat-link";
+import ChatListItem from "./components/chat-link";
 
-import { getIconURL } from "@/core/interface-adapters/controllers/category.controller";
 import { getChatsController } from "@/core/interface-adapters/controllers/chat/chat.controller";
+
+import ChatSideRow from "./components/chat-side-row";
 
 export default async function SideBarContent({
   username,
@@ -13,52 +14,69 @@ export default async function SideBarContent({
 
   return (
     <>
-      <ul className="flex flex-col px-1 text-nowrap overflow-hidden">
-        <ChatLink
-          href="/"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="white"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
-            </svg>
-          }
-          title="Home"
-        />
-      </ul>
-
-      <div className="flex flex-col gap-4 pt-12 text-sm text-nowrap overflow-hidden">
-        {data.map(([date, chats]) => (
-          <div key={date}>
-            <p className="opacity-30 text-sm pb-2">{date}</p>
-            <ul className="flex flex-col gap-1 pb-4">
-              {chats?.map((e) => (
-                <ChatLink
-                  key={e.chatId}
-                  href={`/chat/${e.topic.toLowerCase().replace(/\/| /g, "-")}`}
-                  icon={
-                    <Image
-                      src={getIconURL(e.imageUrl)}
-                      width={18}
-                      height={18}
-                      className="size-full"
-                      alt={e.categoryTitle}
-                    />
-                  }
-                  title={e.topic}
+      <div className="flex flex-col gap-4 pt-1 text-sm text-nowrap overflow-y-auto h-full">
+        <ul className="flex flex-col text-nowrap gap-2">
+          <ChatListItem
+            chatName="Home"
+            chatId="Home"
+            extendable={false}
+            href="/"
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="white"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                 />
-              ))}
-            </ul>
-          </div>
+              </svg>
+            }
+            title="Home"
+          />
+
+          <ChatListItem
+            href="/create-chat"
+            chatId="Create Chat"
+            chatName="Create your chat"
+            extendable={false}
+            title="Create Chat"
+            styles={{
+              color: "gray",
+            }}
+            icon={
+              <svg
+                className="size-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  opacity="0.5"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="gray"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"
+                  stroke="gray"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            }
+          />
+        </ul>
+
+        {data.map(([date, chats]) => (
+          <ChatSideRow key={date} date={date} chats={chats} />
         ))}
       </div>
 
