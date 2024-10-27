@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 
-import { createChat } from "./actions";
 import { useRouter } from "next/navigation";
+import { createChat } from "./actions";
 
 type CardProps = Readonly<{
   id: number;
@@ -14,10 +14,11 @@ type CardProps = Readonly<{
 
 export default function Card({ image, title, options, id }: CardProps) {
   const route = useRouter();
+
   const onClickCreateChat =
     (chatTopic: string, categoryId: number) => async () => {
-      await createChat(chatTopic, categoryId);
-      route.push(`/chat/${chatTopic.toLowerCase().replace(/\/| /g, "-")}`);
+      const data = await createChat(chatTopic, categoryId);
+      route.push(`/chat/${data.chatId}`);
     };
 
   return (
