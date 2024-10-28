@@ -44,7 +44,7 @@ export async function signInController(
     if (error instanceof AuthenticationError) {
       throw new Error("Invalid email or password");
     }
-    console.log("Error in signUpController:", error);
+    console.log("Error in signInController:", error);
     throw new Error("Internal Server Error");
   }
 }
