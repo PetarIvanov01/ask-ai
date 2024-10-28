@@ -2,25 +2,21 @@
 
 import Image from "next/image";
 
-import { useRouter } from "next/navigation";
-import { createChat } from "./actions";
-
 type CardProps = Readonly<{
   id: number;
   image: string;
   title: string;
   options: string[];
+  onClickCreateChat: (chatTopic: string, categoryId: number) => () => void;
 }>;
 
-export default function Card({ image, title, options, id }: CardProps) {
-  const route = useRouter();
-
-  const onClickCreateChat =
-    (chatTopic: string, categoryId: number) => async () => {
-      const data = await createChat(chatTopic, categoryId);
-      route.push(`/chat/${data.chatId}`);
-    };
-
+export default function Card({
+  image,
+  title,
+  options,
+  id,
+  onClickCreateChat,
+}: CardProps) {
   return (
     <div className="flex flex-col items-center p-6">
       <div className="size-14 rounded-full mb-4 bg-darker-gray flex justify-center items-center relative">
