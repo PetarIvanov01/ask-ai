@@ -1,12 +1,12 @@
 function BotMessage() {
   return (
-    <article className="w-full text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
+    <article className="w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <div className="text-base py-[18px] px-3 m-auto md:px-5">
         <div className="mx-auto flex items-center flex-1 gap-4 text-base md:gap-5 lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]">
           <div className="flex-shrink-0 flex flex-col relative self-start mb-6 pt-2">
             <div className="pt-0">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
-                <div className="relative p-1 size-10 bg-dark-gray-1 rounded-sm flex items-center justify-center bg-token-main-surface-primary text-token-text-primary"></div>
+                <div className="relative p-1 size-10 bg-dark-gray-1 rounded-sm flex items-center justify-center"></div>
               </div>
             </div>
           </div>
@@ -22,15 +22,15 @@ function BotMessage() {
 
 function UserMessage() {
   return (
-    <article className="w-full text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
+    <article className="w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <div className="text-base py-[18px] px-3 m-auto md:px-5">
         <div className="mx-auto flex flex-1 gap-4 text-base md:gap-5 lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]">
           <div className="relative flex w-full min-w-0 flex-col">
             <div className="flex-col gap-1 md:gap-3">
               <div className="flex max-w-full flex-col flex-grow">
-                <div className="min-h-[20px] text-message flex w-full flex-col items-end gap-2 whitespace-pre-wrap break-words [.text-message+&amp;]:mt-5 overflow-x-auto">
+                <div className="min-h-[20px] flex w-full flex-col items-end gap-2 whitespace-pre-wrap break-words overflow-x-auto">
                   <div className="flex w-full flex-col gap-1 empty:hidden items-end rtl:items-start">
-                    <div className="w-2/3 flex flex-col px-5 py-2.5 dark:bg-token-main-surface-secondary">
+                    <div className="w-2/3 flex flex-col px-5 py-2.5">
                       <div className="skeleton h-5 w-3/4 mb-2 bg-gray-300 animate-pulse"></div>
                       <div className="skeleton h-5 w-2/3 bg-gray-300 animate-pulse"></div>
                     </div>
@@ -48,7 +48,7 @@ function UserMessage() {
 export default function LoadingFallback() {
   return (
     <div className="flex flex-col text-sm h-full w-full">
-      <div className="flex-grow overflow-auto p-4 h-full w-full">
+      <div className="flex-grow overflow-auto h-full w-full">
         {[...Array(6)].map((_, index) => {
           if (index % 2 === 0) {
             return <BotMessage key={index} />;
