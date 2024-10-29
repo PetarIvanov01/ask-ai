@@ -43,9 +43,9 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          icon_url?: string
+          icon_url: string
           id?: number
-          title?: string
+          title: string
         }
         Update: {
           created_at?: string
@@ -58,28 +58,28 @@ export type Database = {
       category_options: {
         Row: {
           ai_instructions: string
-          category_id: number | null
+          category_id: number
           created_at: string
           id: number
           topic: string
         }
         Insert: {
-          ai_instructions?: string
-          category_id?: number | null
+          ai_instructions: string
+          category_id: number
           created_at?: string
           id?: number
-          topic?: string
+          topic: string
         }
         Update: {
           ai_instructions?: string
-          category_id?: number | null
+          category_id?: number
           created_at?: string
           id?: number
           topic?: string
         }
         Relationships: [
           {
-            foreignKeyName: "categories_options_category_id_fkey"
+            foreignKeyName: "category_options_category_id_fkey"
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
@@ -93,7 +93,7 @@ export type Database = {
           chat_id: string
           id: number
           language: Database["public"]["Enums"]["languages"]
-          length: Database["public"]["Enums"]["response-length"]
+          length: Database["public"]["Enums"]["response_length"]
           personality: Database["public"]["Enums"]["personalities"]
           proficiency: Database["public"]["Enums"]["proficiencies"]
           tags: string | null
@@ -103,7 +103,7 @@ export type Database = {
           chat_id: string
           id?: number
           language?: Database["public"]["Enums"]["languages"]
-          length?: Database["public"]["Enums"]["response-length"]
+          length?: Database["public"]["Enums"]["response_length"]
           personality?: Database["public"]["Enums"]["personalities"]
           proficiency?: Database["public"]["Enums"]["proficiencies"]
           tags?: string | null
@@ -113,7 +113,7 @@ export type Database = {
           chat_id?: string
           id?: number
           language?: Database["public"]["Enums"]["languages"]
-          length?: Database["public"]["Enums"]["response-length"]
+          length?: Database["public"]["Enums"]["response_length"]
           personality?: Database["public"]["Enums"]["personalities"]
           proficiency?: Database["public"]["Enums"]["proficiencies"]
           tags?: string | null
@@ -130,31 +130,31 @@ export type Database = {
       }
       chats: {
         Row: {
-          category_id: number | null
+          category_id: number
           chat_id: string
           chat_name: string
           created_at: string
-          custom: boolean | null
+          custom: boolean
           topic: string
           updated_at: string
           user_id: string
         }
         Insert: {
-          category_id?: number | null
+          category_id: number
           chat_id?: string
-          chat_name?: string
+          chat_name: string
           created_at?: string
-          custom?: boolean | null
+          custom?: boolean
           topic: string
           updated_at?: string
           user_id: string
         }
         Update: {
-          category_id?: number | null
+          category_id?: number
           chat_id?: string
           chat_name?: string
           created_at?: string
-          custom?: boolean | null
+          custom?: boolean
           topic?: string
           updated_at?: string
           user_id?: string
@@ -165,13 +165,6 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "chats_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -187,7 +180,7 @@ export type Database = {
         Insert: {
           chat_id: string
           created_at?: string
-          message: string
+          message?: string
           message_id?: string
           role?: Database["public"]["Enums"]["role"]
         }
@@ -200,7 +193,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "messages__chat_id_fkey"
+            foreignKeyName: "messages_chat_id_fkey"
             columns: ["chat_id"]
             isOneToOne: false
             referencedRelation: "chats"
@@ -224,15 +217,7 @@ export type Database = {
           id?: string
           username?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -245,7 +230,7 @@ export type Database = {
       languages: "english" | "bulgarian"
       personalities: "friendly" | "professional" | "humorous"
       proficiencies: "beginner" | "intermediate" | "advanced"
-      "response-length": "short" | "medium" | "detailed"
+      response_length: "short" | "medium" | "detailed"
       role: "user" | "ai"
     }
     CompositeTypes: {
@@ -334,5 +319,20 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
