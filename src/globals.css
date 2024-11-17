@@ -68,8 +68,63 @@ body,
   animation: spin 1s linear infinite;
 }
 
+.animate-scale-down {
+  animation: scale-down 0.6s infinite ease-in-out;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot1 {
+  animation: scale-dot 0.6s infinite ease-in-out;
+}
+
+.dot2 {
+  animation: scale-dot 0.6s infinite ease-in-out 0.2s;
+}
+
+.dot3 {
+  animation: scale-dot 0.6s infinite ease-in-out 0.4s;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes scale-dot {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.text-writer {
+  display: inline-block;
+  position: relative;
+}
+
+.blink {
+  color: white;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
