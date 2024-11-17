@@ -50,7 +50,7 @@ export default function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-dark-gray-3 rounded-lg shadow-lg p-6 w-full max-w-sm">
         <h2 className="text-white text-xl mb-4">{title}</h2>
-        <p className="text-gray-300 mb-6">{description}</p>
+        <div className="text-gray-300 mb-6">{description}</div>
         <div className="mb-6">{children}</div>
         <div className="flex justify-end gap-4">
           <button
